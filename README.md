@@ -4,7 +4,7 @@ Please follow the below steps to run the code in your machine.
 
 ## Steps
 
-1) Download the Zip file or clone the repository from the github.com/nikunj792/assignment.
+1) Download the Zip file or clone the repository from the https://github.com/nikunj792/Assignment_Gurgaon.
 2) Open the two terminal from the root of the project.
 3) Do "npm install" to install all the dependencies in one terminal.
 4) Do "node src/express.js" to start the server.

@@ -18,6 +18,7 @@
     "babel-preset-react-app": "^9.1.0",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
+    "checkdigit": "^1.1.1",
     "css-loader": "3.2.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
@@ -35,9 +36,6 @@
     "fs-extra": "^8.1.0",
     "html-webpack-plugin": "4.0.0-beta.5",
     "identity-obj-proxy": "3.0.0",
-    "jest-environment-jsdom-fourteen": "0.1.0",
-    "jest-resolve": "24.9.0",
-    "jest-watch-typeahead": "0.4.2",
     "luhn": "^2.4.0",
     "mini-css-extract-plugin": "0.8.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
@@ -68,10 +66,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "jest --config ./jest.config.json",
-    "test:watch": "npm run test -- --watch",
-    "test:coverage": "jest -c --coverage"
+    "build": "node scripts/build.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -143,9 +138,5 @@
       "react-app"
     ]
   },
-  "devDependencies": {
-    "jest": "^24.9.0",
-    "react-test-renderer": "^16.12.0",
-    "enzyme-to-json": "3.3.1"
-  }
+  "devDependencies": {}
 }

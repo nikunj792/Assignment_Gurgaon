@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const luhn = require("luhn");
 const content = require('../content.json');
 
 const app = express();
@@ -21,13 +20,13 @@ app.listen(app.get('PORT'), () => {
 app.post('/add', (req, res) => {
     const ccNumber = req.body && req.body.userCCData.userCCNumber;
     req.body.userCCData.balance = '£0';
-    if (luhn.validate(ccNumber)) {
+    if (valid_credit_card(ccNumber)) {
         loading((error, response) => {
             if (error) throw error;
             response.users.push(req.body.userCCData);
             saving(response)
         });
-        res.status(200).send();
+        res.status(200).send({ responseData: 'Data Saved Successfully' });
     }
     else {
         res.status(500).send({ creditCardError: 'Please Enter the Correct Credit Card Number' })
@@ -50,7 +49,27 @@ const loading = (callback) => {
 }
 
 const saving = (editedContent) => {
-    fs.writeFile('content.json', JSON.stringify(editedContent), (error) => {
+    fs.writeFile(path.join(__dirname, '../') + 'content.json', JSON.stringify(editedContent), (error) => {
         console.log('Content Saved')
     })
+}
+
+//Luhn10 Algorithm Validation
+const valid_credit_card = (ccNumber) => {
+    if (/[^0-9-\s]+/.test(ccNumber)) return false;
+
+    let nCheck = 0, nDigit = 0, bEven = false;
+    ccNumber = ccNumber.replace(/\D/g, "");
+
+    for (let n = ccNumber.length - 1; n >= 0; n--) {
+        let cDigit = ccNumber.charAt(n),
+            nDigit = parseInt(cDigit, 10);
+        if (bEven) {
+            if ((nDigit *= 2) > 9) nDigit -= 9;
+        }
+        nCheck += nDigit;
+        bEven = !bEven;
+    }
+
+    return (nCheck % 10) == 0;
 }

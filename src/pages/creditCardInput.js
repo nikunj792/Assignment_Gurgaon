@@ -20,6 +20,7 @@ export default class CreditCardInput extends React.PureComponent {
     userCCNumberError: '',
     userCCLimitError: '',
     userCCNumberLengthError: '',
+    response:'',
     }
 
   userCCData() {
@@ -42,13 +43,14 @@ export default class CreditCardInput extends React.PureComponent {
     let limitErrorFlag = false;
     if (fieldName === 'userCCNumber') {
       let userCCNumberError = !matches(e.target.value, /^[0-9 ]+$/i) ? constants.userCCNumberError : '';
-      let userCCNumberLengthError = e.target.value.length > 10 ? constants.userCCNumberLengthError : '';
+      let userCCNumberLengthError =  e.target.value.length !==10 ? constants.userCCNumberLengthError : '';
+      let val = e.target.value.length > 10 ? e.target.value.substring(0,9) : e.target.value;
       numberErrorFlag = true;
       this.setState(
         {
           numberErrorFlag,
           userCCNumberError,
-          userCCNumber: e.target.value,
+          userCCNumber: val,
           userCCNumberLengthError
         }
       )
@@ -80,11 +82,12 @@ export default class CreditCardInput extends React.PureComponent {
       'Content-Type': 'application/json',
       userCCData
     })
-      .then(() => {
+      .then((res) => {
         this.setState({
           userName: '',
           userCCNumber: '',
-          userCCLimit: ''
+          userCCLimit: '',
+          response: res.data.responseData
         })
       })
       .catch((err)=>{
@@ -136,6 +139,7 @@ export default class CreditCardInput extends React.PureComponent {
           <div className="btn-submit">
             <Button dataLocator="submit btn" ariaLabel="submit btn" handleBtnClick={() => this.handleDetailSubmit()}>{constants.button_text}</Button>
           </div>
+          <span>{this.state.response}</span>
         </div>
         <div className="existing-users">
           <CreditCardUsers content={this.state.content} />
