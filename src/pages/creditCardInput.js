@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/creditCardInput.css';
 import axios from 'axios';
-import matches from 'validator/es/lib/matches';
+import {matches} from 'validator';
 import constants from '../util/constants';
 import UserInput from '../molecules/UserInput/userInput';
 import CreditCardUsers from './creditCardUsers';
@@ -24,16 +24,18 @@ export default class CreditCardInput extends React.PureComponent {
     }
 
   userCCData() {
-    axios.get(`http://localhost:3010/getAll`)
+     axios.get(`http://localhost:3010/getAll`)
       .then(res => {
         this.setState(
           {
             content: res.data
           }
         )
-      });
+      })
+      .catch((err)=>{console.log(err)})
   }
   componentDidMount() {
+    if (process.env.NODE_ENV === 'test') return
     this.userCCData();
   }
 
@@ -71,7 +73,7 @@ export default class CreditCardInput extends React.PureComponent {
     }
   }
 
-  handleDetailSubmit = () => {
+   handleDetailSubmit = () => {
     const { userName, userCCNumber, userCCLimit } = this.state;
     const userCCData = {
       userName,
