@@ -24,7 +24,7 @@ export default class CreditCardInput extends React.PureComponent {
     }
 
   userCCData() {
-    axios.get(`http://localhost:3001/getAll`)
+    axios.get(`http://localhost:3010/getAll`)
       .then(res => {
         this.setState(
           {
@@ -78,7 +78,7 @@ export default class CreditCardInput extends React.PureComponent {
       userCCNumber,
       userCCLimit: `£${userCCLimit}`
     }
-    axios.post(`http://localhost:3001/add`, {
+    axios.post(`http://localhost:3010/add`, {
       'Content-Type': 'application/json',
       userCCData
     })

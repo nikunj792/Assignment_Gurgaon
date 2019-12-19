@@ -11,7 +11,7 @@ app.use(express.static(publicDirectoryPath));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.set('PORT', process.argv.PORT || '3001');
+app.set('PORT', process.argv.PORT || '3010');
 
 app.listen(app.get('PORT'), () => {
     console.log('Port is started at', app.get("PORT"))
@@ -20,7 +20,7 @@ app.listen(app.get('PORT'), () => {
 app.post('/add', (req, res) => {
     const ccNumber = req.body && req.body.userCCData.userCCNumber;
     req.body.userCCData.balance = '£0';
-    if (valid_credit_card(ccNumber)) {
+    if (luhn10Algo(ccNumber)) {
         loading((error, response) => {
             if (error) throw error;
             response.users.push(req.body.userCCData);
@@ -55,7 +55,7 @@ const saving = (editedContent) => {
 }
 
 //Luhn10 Algorithm Validation
-const valid_credit_card = (ccNumber) => {
+const luhn10Algo = (ccNumber) => {
     if (/[^0-9-\s]+/.test(ccNumber)) return false;
 
     let nCheck = 0, nDigit = 0, bEven = false;
